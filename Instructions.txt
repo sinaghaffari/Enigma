@@ -1,0 +1,42 @@
+Enigma Instructions
+
+Welcome! This is most likely your first time running Enigma!
+
+!!!!YOU ARE GOING TO WANT TO READ THIS!!!!
+
+
+This is how you play!
+
+
+
+WASD keys to move up, left, down, and right respectively.
+
+Q and E to switch weapons.
+
+Hold Shift to sprint. (You cannot shoot while sprinting)
+
+R to reload (Or you can click when you have no bullets)
+
+Esc to pause.
+
+
+The goal of the game is to survive for as long as you can in the zombie apocalypse world. You have a pistol with unlimited ammunition, and an arsenal of other guns that you can buy from the shop.
+
+The shop will open at the end of each wave of zombies.
+
+There are different kindsof zombies:
+
+
+Walkers  - They are normal walking zombies with base health. Easy stuff, nothing special.
+
+Swarmers - They are fast zombies that swarm you, Be careful they come in packs!
+
+Brutes   - They are massive jaugernaut zombies. They have a lot of health and as you lower
+	   their health, they run faster and faster.
+
+Strikers - They are similar to Walkers, except they explode when they die. You have to be
+	   very cautious, they do a lot of damage and it's very hard to tell them apart from
+	   walkers.
+	   
+	   HINT: How you can tell is that strikers are actually zombie police men, and soldiers.
+	   Just look at their uniform.

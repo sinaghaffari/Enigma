@@ -1,0 +1,6 @@
+MapName: "PFTest";
+MapLength: "20";
+MapHeight: "30";
+MapData:
+"11111111111111111111
+";

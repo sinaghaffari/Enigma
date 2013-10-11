@@ -1,0 +1,30 @@
+package main; import java.awt.Dimension; import java.awt.Point; import java.awt.Toolkit; import java.awt.event.ComponentEvent; import java.awt.event.ComponentListener; import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener; import java.awt.image.BufferedImage; import java.io.File; import java.io.IOException; import mapEditor.EditorFrame; import javax.swing.JFrame;
+import javax.swing.JOptionPane; import java.util.Map; public class GameFrame implements WindowListener, ComponentListener { public static GameFrame gframe; public static JFrame f = new JFrame( "Enigma" );
+public static PreWindow pW; public static EditorFrame edit; public static MainMenu menu; public static Game game; public static boolean isGaming = false; private static File gameMap = new File("levels/Enigma Survival.map");
+public static int CPUs = Runtime.getRuntime().availableProcessors(); public GameFrame( boolean intro) { try { for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {if ("Nimbus".equals(info.getName())) {
+javax.swing.UIManager.setLookAndFeel(info.getClassName()); break; } } } catch (ClassNotFoundException ex) { java.util.logging.Logger.getLogger(EditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+} catch (InstantiationException ex) { java.util.logging.Logger.getLogger(EditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex); } catch (IllegalAccessException ex) {
+java.util.logging.Logger.getLogger(EditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex); } catch (javax.swing.UnsupportedLookAndFeelException ex) { java.util.logging.Logger.getLogger(EditorFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+} Dimension dim = Toolkit.getDefaultToolkit().getScreenSize(); menu = new MainMenu( intro); initAFrame(SettingsConfig.fullScreen); } public void initAFrame( boolean fullScreen) {
+if (f != null) { f.removeAll(); f.dispose(); } f = new JFrame( "Enigma" ); f.getContentPane().setSize(new Dimension(1000, 600)); f.addWindowListener(this); f.addComponentListener(this);
+f.setResizable( true ); f.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE ); f.add( menu ); f.getContentPane().setSize(menu.getWidth(), menu.getHeight());
+f.setCursor(f.getToolkit().createCustomCursor( new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null")); if (fullScreen) { f.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+f.setUndecorated(true); } else { f.setUndecorated(false); } f.setVisible( true ); } public void changeAFrame( boolean fullScreen) { if (f != null) { f.removeAll(); f.dispose(); } f = new JFrame( "Enigma" ); f.getContentPane().setSize(new Dimension(1000, 600));
+f.addWindowListener(this); f.addComponentListener(this); f.setResizable( true ); f.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE ); f.add( game ); f.getContentPane().setSize(game.getWidth(), game.getHeight());
+f.setCursor(f.getToolkit().createCustomCursor(new BufferedImage(3, 3, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "null")); if (fullScreen) { f.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+f.setUndecorated(true); } else { f.setUndecorated(false); } f.setVisible( true ); } public static void main( String[] args ) { System.setProperty("sun.java2d.opengl","true");
+System.setProperty("sun.java2d.noddraw","true"); System.out.println(System.getProperties().toString()); File tempFile = new File("config"); if (tempFile.exists()) { SettingsConfig.readConfig();
+if (CPUs != SettingsConfig.CPUs) { tempFile.delete(); pW = new PreWindow(CPUs); } else { startFrame(false); } } else { pW = new PreWindow(CPUs); } } public void startGame() throws IOException {
+f.remove(menu); menu = null; isGaming = true; game = new Game( gameMap ); f.add(game); f.validate(); } public void startMenu() { f.remove(game); game.terminateGame(); isGaming = false;
+menu = new MainMenu(false); f.add(menu); f.validate(); game = null; }public static void startMapEditor() { f.remove(menu); menu = null; f.dispose(); gframe = null; edit = new EditorFrame(); } 
+public static void startFrame(boolean intro) {if (edit != null) { edit.dispose(); edit = null; } if (pW != null) { pW.dispose(); pW = null; } gframe = new GameFrame(intro);
+} public static void setMap( File f ) { gameMap = f; } public static File getMap() { return gameMap; } @Override public void windowActivated(WindowEvent arg0) { } @Override
+public void windowClosing(WindowEvent arg0) { if (isGaming) { game.pause = true; tryExit(); } else { System.exit(0); } } public void tryExit() { Object[] option = { "Exit to Menu", "Exit to Desktop", "Resume" };
+int answer = JOptionPane.showOptionDialog(f, " Are you certain that you would like to exit?", "Exit", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, option, option[0]);  		
+if (answer == -1 || answer == 2) { game.pause = false; } else if (answer == 0) { startMenu(); } else if (answer == 1) { System.exit(0); } } @Override public void windowDeactivated(WindowEvent arg0) {
+} @Override public void windowDeiconified(WindowEvent arg0) { } @Override public void windowIconified(WindowEvent arg0) { } @Override public void windowOpened(WindowEvent arg0) {
+} @Override public void windowClosed(WindowEvent arg0) { } @Override public void componentHidden(ComponentEvent arg0) { } @Override public void componentMoved(ComponentEvent arg0) {
+} @Override public void componentResized(ComponentEvent arg0) { if (f.getContentPane().getWidth() < 1000) { f.setSize(1000 + f.getInsets().left + f.getInsets().right, f.getContentPane().getHeight() + f.getInsets().bottom + f.getInsets().top);
+f.setResizable(false); } else { f.setResizable(true); } if (f.getContentPane().getHeight() < 600) { f.setSize(f.getContentPane().getWidth() + f.getInsets().left + f.getInsets().right, 600 + f.getInsets().bottom + f.getInsets().top);
+f.setResizable(false); } else { f.setResizable(true); } } @Override public void componentShown(ComponentEvent arg0) { } }
